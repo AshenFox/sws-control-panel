@@ -1,0 +1,9 @@
+@mixin link {
+  text-decoration: none;
+}
+
+@mixin btn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
