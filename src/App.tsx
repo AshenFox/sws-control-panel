@@ -39,35 +39,82 @@ const App: FC<Props> = () => {
       <div className='container'>
         <nav className='nav'>
           <header className='nav__header'>
-            {/* <div className='nav__header-left'>
+            <div className='nav__header-left'>
               <h2>Название проекта</h2>
               <h3>Аббревиатура</h3>
             </div>
             <div className='nav__header-right'>
               <ArrowDown />
-            </div> */}
-            <h5>something</h5>
-            <h5>something</h5>
-            <h5>something</h5>
+            </div>
           </header>
           <main className='nav__main'>
             <ul className='nav__list'>
-              {/* <div className='nav__item'>
-              <div className='nav__item-icon'>
+              <li className='nav__item'>
                 <Tiles />
-              </div>
-              <h4 className='nav__item-icon'>СМП</h4>
-            </div> */}
+                <h4>По проекту</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Объекты</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>РД</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>СМР</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>График</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>МиМ</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Рабочие</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Капвложения</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Бюджет</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Финансирование</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Панорамы</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Камеры</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Поручения</h4>
+              </li>
+              <li className='nav__item'>
+                <Tiles />
+                <h4>Контрагенты</h4>
+              </li>
             </ul>
           </main>
         </nav>
         <section className='section'>
           <header className='section__header'>
-            {/* <h1>Строительно-монтажные работы</h1> */}
-
-            <h3>Строительно-монтажные работы</h3>
+            <div className='section__header-container'>
+              <h1>Строительно-монтажные работы</h1>
+            </div>
           </header>
-          <main className='section__table'>
+          <main className='section__main'>
             {/* <header className='table__header'></header>
             <ul className='table__list'>
               <li className='table__list-item'></li>

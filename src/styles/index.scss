@@ -181,14 +181,47 @@ input {
 
   &__header {
     min-height: 4.4rem;
+    padding: 0 1.3rem 0 2rem;
     border-bottom: $divider;
+
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-left {
+    flex: 1;
+    h2,
+    h3 {
+      color: $dark-text-color;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      line-height: 1.2rem;
+    }
+  }
+
+  &__header-right {
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 12px;
+      fill: $light-text-color;
+    }
   }
 
   &__main {
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: green;
+    // background-color: green;
 
     @media (max-width: 900px) {
       flex: none;
@@ -200,14 +233,44 @@ input {
   }
 
   &__list {
+    background-color: $main-color;
+
+    transition: all 0.5s ease-in-out;
+
     @media (max-width: 900px) {
       position: absolute;
       top: 0;
       left: 0;
-      background-color: red;
-      // height: 100px;
-      width: 100%;
+
+      max-height: 0;
+      // max-height: 2000px;
+
       z-index: 1;
+
+      overflow-y: hidden;
+      width: 100%;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 0 2.275rem 0;
+    min-height: 3.2rem;
+
+    svg {
+      width: 1.65rem;
+      fill: $light-text-color;
+      // padding-right: 1.675rem;
+    }
+
+    h4 {
+      color: $light-text-color;
+      font-weight: 400;
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+      vertical-align: middle;
+      padding-left: 1.675rem;
     }
   }
 }
@@ -224,7 +287,23 @@ input {
     background-color: $main-color;
   }
 
-  &__table {
+  &__header-container {
+    height: 100%;
+    width: fit-content;
+    border-right: $divider;
+    display: flex;
+    align-items: center;
+
+    h1 {
+      font-weight: 400;
+      font-size: 1.8rem;
+      line-height: 2.2rem;
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__main {
     flex: 1;
+    padding: 0 1rem;
   }
 }
