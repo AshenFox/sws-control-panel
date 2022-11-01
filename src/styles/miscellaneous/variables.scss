@@ -5,12 +5,18 @@ $secondary-color: #202124;
 $divider-color: #414144;
 $divider: solid 1px $divider-color;
 
+$line-color: #c6c6c6;
+
 // Text
 $light-text-color: #ffffff;
 $dark-text-color: #a1a1aa;
 
-/* $shadow-color: rgba(#020060, 0.25);
-$link-color: #002bc5; */
-
 // Media
-// $tablet: 768px;
+$tablet: 900px;
+$mobile: 600px;
+$mobile-small: 320px;
+
+$blue-color: #5f98f5;
+$green-color: #95ffac;
+$pale-blue-color: #7890b2;
+$coral-color: #df4444;

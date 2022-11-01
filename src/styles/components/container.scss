@@ -1,0 +1,11 @@
+.container {
+  position: fixed;
+  height: calc(100% - 4.4rem);
+  width: 100%;
+
+  display: flex;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+  }
+}
