@@ -14,12 +14,13 @@ const Nav: FC<Props> = () => {
           <h2>Название проекта</h2>
           <h3>Аббревиатура</h3>
         </div>
-        <div className='nav__header-right active'>
+        <div className='nav__header-right '>
+          {/* active */}
           <ArrowDown />
         </div>
       </header>
       <main className='nav__main'>
-        <ul className='nav__list '>
+        <ul className='nav__list active'>
           <li className='nav__item'>
             <Tiles />
             <h4>По проекту</h4>

@@ -1,102 +1,160 @@
 import {
+  ChangableFieldsType,
+  RowListType,
+  RowInterface,
+} from './../reducers/main/mainInitState';
+import {
   AppActions,
-  GET_ADDRESS_LIST,
-  SET_IS_LOADING,
-  SET_IS_MENU_OPEN,
-  SET_IS_NOTHING_FOUND,
-  SET_IS_TOO_SHORT,
-  SET_QUERY,
+  GET_ROW_LIST,
+  CREATE_NEW_ROW,
+  SAVE_NEW_ROW,
+  DELETE_ROW,
+  UPDATE_ROW,
+  SET_TABLE_WIDTH,
+  SET_ROW_FIELD,
 } from '../types/types';
 import { ThunkActionApp } from '../store';
 import { api_url, token } from '../../helpers/values';
-import { AddressListType } from '../reducers/main/mainInitState';
 
-// SET_IS_MENU_OPEN
-export const set_is_menu_open = (value: boolean): AppActions => ({
-  type: SET_IS_MENU_OPEN,
+// SET_TABLE_WIDTH
+export const set_table_width = (value: number): AppActions => ({
+  type: SET_TABLE_WIDTH,
   payload: {
     value,
   },
 });
 
-// SET_IS_LOADING
-export const set_is_loading = (value: boolean): AppActions => ({
-  type: SET_IS_LOADING,
-  payload: {
-    value,
-  },
-});
-
-// SET_QUERY
-export const set_query = (value: string): AppActions => ({
-  type: SET_QUERY,
-  payload: {
-    value,
-  },
-});
-
-// SET_IS_MENU_OPEN
-export const set_is_nothing_found = (value: string): AppActions => ({
-  type: SET_IS_NOTHING_FOUND,
-  payload: {
-    value,
-  },
-});
-
-// SET_IS_TOO_SHORT
-export const set_is_too_short = (value: boolean): AppActions => ({
-  type: SET_IS_TOO_SHORT,
-  payload: {
-    value,
-  },
-});
-
-// GET_ADDRESS_LIST
-export const get_address_list = () => <ThunkActionApp>(async (dispatch, getState) => {
+// GET_ROW_LIST
+export const get_row_list = () => <ThunkActionApp>(async (dispatch, getState) => {
     try {
-      const {
-        main: { query },
-      } = getState();
-
       const options: RequestInit = {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: 'Token ' + token,
-        },
-        body: JSON.stringify({ query }),
+        method: 'GET',
       };
 
-      dispatch(set_is_nothing_found(''));
-      dispatch(set_is_too_short(false));
+      const response = await fetch(api_url + token + '/row/list', options);
 
-      if (query.length <= 3) {
-        dispatch(set_is_too_short(true));
-        return;
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err);
       }
 
-      dispatch(set_is_loading(true));
-
-      const response = await fetch(api_url, options);
-
-      const data = (await response.json()) as { suggestions: AddressListType };
+      const data = (await response.json()) as RowListType;
 
       dispatch({
-        type: GET_ADDRESS_LIST,
+        type: GET_ROW_LIST,
         payload: {
-          value: data.suggestions,
+          value: data,
         },
       });
-      dispatch(set_is_loading(false));
-
-      if (!data.suggestions.length) dispatch(set_is_nothing_found(query));
     } catch (err) {
       console.log(err);
-      dispatch(set_is_loading(false));
     }
   });
+
+// CREATE_NEW_ROW
+export const create_new_row = (parent_id: number | null): AppActions => ({
+  type: CREATE_NEW_ROW,
+  payload: {
+    parent_id,
+    value: {
+      id: Math.random() * 10 ** 17,
+      rowName: '',
+      total: 0,
+      salary: 0,
+      mimExploitation: 0,
+      machineOperatorSalary: 0,
+      materials: 0,
+      mainCosts: 0,
+      supportCosts: 0,
+      equipmentCosts: 0,
+      overheads: 0,
+      estimatedProfit: 0,
+      child: [],
+      isBeingEdited: true,
+      isNew: true,
+      parentId: parent_id,
+    },
+  },
+});
+
+// SAVE_NEW_ROW
+export const save_new_row = (row: RowInterface) => <ThunkActionApp>(async (
+    dispatch,
+    getState
+  ) => {
+    try {
+      const options: RequestInit = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(row),
+      };
+
+      const response = await fetch(api_url + token + '/row/create', options);
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err);
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+      /* dispatch({
+      type: GET_ROW_LIST,
+      payload: {
+        value: data,
+      },
+    }); */
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+// DELETE_ROW
+export const delete_row = (id: number) => <ThunkActionApp>(async (dispatch, getState) => {
+    try {
+      const options: RequestInit = {
+        method: 'DELETE',
+      };
+
+      const response = await fetch(api_url + token + '/row/' + id + '/delete', options);
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err);
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+      /* dispatch({
+    type: GET_ROW_LIST,
+    payload: {
+      value: data,
+    },
+  }); */
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+// SET_ROW_FIELD
+export const set_row_field = (
+  field: ChangableFieldsType,
+  value: number | string,
+  row_id: number
+): AppActions => ({
+  type: SET_ROW_FIELD,
+  payload: {
+    field,
+    value,
+    row_id,
+  },
+});
 
 // ==================================================
 // ==================================================

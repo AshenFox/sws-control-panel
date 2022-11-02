@@ -1,3 +1,2 @@
-export const token = 'a4bcd334ebcb56eb29478644f6172766e09a24e7';
-export const api_url =
-  'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
+export const token = '2482';
+export const api_url = 'http://185.244.172.108:8081/v1/outlay-rows/entity/';

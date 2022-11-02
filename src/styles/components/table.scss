@@ -9,16 +9,17 @@
 
   &__header {
     position: sticky;
+    z-index: 4;
     top: 0;
     font-size: 1.4rem;
     line-height: 1.8rem;
     color: $dark-text-color;
     min-height: 4.1rem;
-    border-bottom: $divider;
     background-color: $secondary-color;
+    border-bottom: $divider;
   }
 
-  &__row {
+  &__header-row {
     // width: max-content;
     display: flex;
     align-items: center;
@@ -42,16 +43,115 @@
     }
   }
 
+  &__item-row {
+    // width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    & > div {
+      padding: 0.5rem 1.2rem;
+      width: 20rem;
+      min-width: 20rem;
+    }
+
+    & > div:nth-child(1) {
+      min-width: 30rem;
+      flex: 1;
+    }
+  }
+
+  &__sub {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2.5rem;
+
+    & .table__item-container {
+      &::before {
+        content: '';
+      }
+    }
+
+    & + .table__item-container {
+      &::after {
+        content: '';
+      }
+    }
+  }
+
+  &__li {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      background-color: $line-color;
+      top: 0;
+      left: 1.2rem; // 1.2rem
+      height: calc(100%);
+      width: 1px;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    &:last-child {
+      .table__item-container {
+        .table__item-line {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__item-container {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+
+    &::after {
+      position: absolute;
+      z-index: 1;
+      background-color: $line-color;
+      top: calc(50% + 0.5rem);
+      left: 3.7rem;
+      height: calc(50% + 1px);
+      width: 1px;
+    }
+
+    &::before {
+      position: absolute;
+      z-index: 1;
+      background-color: $line-color;
+      top: calc(50%);
+      left: 1.2rem;
+      height: 1px;
+      width: 2rem;
+    }
+  }
+
+  &__item-line {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    background-color: $line-color;
+    top: 0;
+    left: 1.2rem;
+    height: 50%;
+    width: 1px;
+  }
+
   &__item {
     list-style: none;
     min-height: 6rem;
 
     font-size: 1.4rem;
     line-height: 1.8rem;
-
-    &:not(:last-child) {
-      border-bottom: $divider;
-    }
 
     input {
       width: 100%;
@@ -61,6 +161,14 @@
       padding: 0 1rem;
       color: $dark-text-color;
     }
+  }
+
+  &__item-border {
+    position: absolute;
+    height: 1px;
+    background-color: $divider-color;
+    top: -1px;
+    right: 0;
   }
 
   &__item-level {
@@ -75,72 +183,9 @@
     position: relative;
   }
 
-  &__line {
-    &--parent {
-      top: calc(50% + 0.6rem);
-      left: 1.3rem;
-      height: calc(50% + 1px - 0.6rem);
-      width: 1px;
-      position: absolute;
-      background-color: $line-color;
-    }
-
-    &--child {
-      div {
-        position: absolute;
-        background-color: $line-color;
-
-        &:nth-child(1) {
-          width: 1px;
-          height: 50%;
-          top: 0;
-          left: -1.2rem;
-        }
-
-        &:nth-child(2) {
-          height: 1px;
-          top: 50%;
-          left: -1.2rem;
-          width: 2rem;
-        }
-      }
-    }
-
-    &--sibling {
-      div {
-        position: absolute;
-        background-color: $line-color;
-
-        &:nth-child(1) {
-          width: 1px;
-          height: calc(50% + 1px);
-          top: 50%;
-          left: -1.2rem;
-        }
-
-        &:nth-child(2) {
-          height: 1px;
-          top: 50%;
-          left: -1.2rem;
-          width: 2rem;
-        }
-      }
-    }
-
-    &--grandparent {
-      position: absolute;
-      background-color: $line-color;
-
-      width: 1px;
-      height: calc(100% + 1px);
-      top: 0;
-      left: -3.7rem;
-    }
-  }
-
   &__icons {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     height: 2.8rem;
 
@@ -150,7 +195,7 @@
     padding: 0 0.3rem;
 
     transition: all 0.2s ease-in-out;
-    //
+
     background-color: transparent;
 
     &:hover {
@@ -205,6 +250,28 @@
       svg {
         fill: $coral-color;
         width: 1.3rem;
+      }
+    }
+  }
+
+  & > .table__sub {
+    & > .table__item-container {
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  & > .table__li {
+    &::after {
+      display: none;
+    }
+
+    &:last-child {
+      & > .table__item-container {
+        .table__item-line {
+          display: none;
+        }
       }
     }
   }

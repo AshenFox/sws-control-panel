@@ -1,31 +1,43 @@
-// export type Direction = 'left' | 'right';
-
-export interface AddressType {
-  value: string;
-  unrestricted_value: string;
-  data: any;
-}
-
-export type AddressListType = AddressType[];
-
 export interface MainState {
   is_menu_open: boolean;
-  is_loading: boolean;
-  is_nothing_found: string;
-  is_too_short: boolean;
-  query: string;
-  address_list: AddressListType;
+  row_list: RowListType;
+  table_width: number;
 }
 
 // =========================
 
+export type ChangableFieldsType =
+  | 'salary'
+  | 'rowName'
+  | 'equipmentCosts'
+  | 'overheads'
+  | 'estimatedProfit';
+
+export interface RowInterface {
+  id: number;
+  rowName: string;
+  total: number;
+  salary: number;
+  mimExploitation: number;
+  machineOperatorSalary: number;
+  materials: number;
+  mainCosts: number;
+  supportCosts: number;
+  equipmentCosts: number;
+  overheads: number;
+  estimatedProfit: number;
+  child: RowListType;
+  isBeingEdited?: boolean;
+  isNew?: boolean;
+  parentId?: number | null;
+}
+
+export type RowListType = RowInterface[];
+
 const mainInitState: MainState = {
   is_menu_open: false,
-  is_loading: false,
-  is_nothing_found: '',
-  is_too_short: false,
-  query: '',
-  address_list: [],
+  row_list: [],
+  table_width: 0,
 };
 
 export default mainInitState;

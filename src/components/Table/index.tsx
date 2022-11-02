@@ -1,21 +1,69 @@
-import React from 'react';
-import TableItem from './Item';
+import { FC, useEffect, useRef } from 'react';
+import { useActions, useAppSelector } from '../../store/hooks';
+import { RowListType } from '../../store/reducers/main/mainInitState';
+import Header from './Header';
+import Item from './Item';
 
-const Table = () => {
+interface OwnProps {}
+
+type Props = OwnProps;
+
+const Table: FC<Props> = () => {
+  const { row_list } = useAppSelector(({ main }) => main);
+
+  const { get_row_list, set_table_width } = useActions();
+
+  const tableElRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    get_row_list();
+  }, []);
+
+  useEffect(() => {
+    const el = tableElRef.current;
+
+    const observer = new ResizeObserver((entries) => {
+      if (entries.length) {
+        const [
+          {
+            contentRect: { width },
+          },
+        ] = entries;
+
+        set_table_width(width);
+      }
+    });
+
+    if (el) observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const mapRowList = (rowList: RowListType, level: number = 0) => {
+    level += 1;
+
+    const result = rowList.map((row) => {
+      const { child, id } = row;
+
+      const isParent = !!child.length;
+      return (
+        <div className='table__li' key={id}>
+          {isParent && <div className='table__sub'>{mapRowList(child, level)}</div>}
+          <Item data={row} level={level} />
+        </div>
+      );
+    });
+
+    return result;
+  };
+
   return (
     <div className='table__container'>
-      <div className='table'>
-        <header className='table__header table__row'>
-          <div>Уровень</div>
-          <div>Наименование работ</div>
-          <div>Основная з/п</div>
-          <div>Оборудование</div>
-          <div>Накладные расходы</div>
-          <div>Сметная прибыль</div>
-        </header>
-        <TableItem type={1} />
-        <TableItem type={2} />
-        <TableItem type={3} isBeingEdited={true} />
+      <div className='table' ref={tableElRef}>
+        <Header />
+        {mapRowList(row_list)}
       </div>
     </div>
   );
