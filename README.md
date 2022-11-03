@@ -1,4 +1,4 @@
-Посмотреть проект можно по ссылке - [SWS Control Panel](https://ashenfox.github.io/Wrench-CRM/)
+Посмотреть проект можно по ссылке - [SWS Control Panel](https://ashenfox.github.io/sws-control-panel)
 
 # SWS Control Panel
 
