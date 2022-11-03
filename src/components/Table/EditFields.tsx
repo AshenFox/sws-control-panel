@@ -47,6 +47,7 @@ const EditFields: FC<Props> = ({ data }) => {
           onKeyDown={onKeyDown}
           ref={inputElRef}
           name={'rowName'}
+          type={'text'}
         />
       </div>
       <div className='table__item-salary'>

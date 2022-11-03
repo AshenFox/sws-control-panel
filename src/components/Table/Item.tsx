@@ -1,8 +1,4 @@
-import { FC, ReactNode, CSSProperties, useState, MouseEventHandler } from 'react';
-import FolderOne from '../Icons/FolderOne';
-import FolderTwo from '../Icons/FolderTwo';
-import Document from '../Icons/Document';
-import TrashBin from '../Icons/TrashBin';
+import { FC, CSSProperties, useState, MouseEventHandler } from 'react';
 import LevelField from './LevelField';
 import EditFields from './EditFields';
 import Fields from './Fields';

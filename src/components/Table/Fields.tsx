@@ -21,13 +21,3 @@ const Fields: FC<Props> = ({ data }) => {
 };
 
 export default Fields;
-
-/* 
-<div className='table__item-name'>Южная строительная площадка</div>
-      <div className='table__item-salary'>20 348</div>
-      <div className='table__item-equip'>1 750</div>
-      <div className='table__item-overheads'>108,07</div>
-      <div className='table__item-profit'>1 209 122,5</div>
-
-
-*/

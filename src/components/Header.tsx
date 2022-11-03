@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Back from './Icons/Back';
 import Menu from './Icons/Menu';
 
@@ -7,21 +8,26 @@ interface OwnProps {}
 type Props = OwnProps;
 
 const Header: FC<Props> = () => {
+  const { pathname } = useLocation();
+
   return (
     <header className='header'>
-      <a href='/' className='header__logo'>
+      <Link to={'/'} className='header__logo'>
         <Menu />
-      </a>
-      <a href='/' className='header__back'>
+      </Link>
+      <Link to={'/'} className='header__back'>
         <Back />
-      </a>
+      </Link>
       <nav className='header__nav'>
-        <a href='/' className='header__nav-link active'>
+        <Link to={'/'} className={`header__nav-link ${pathname === '/' ? 'active' : ''}`}>
           Просмотр
-        </a>
-        <a href='/' className='header__nav-link'>
+        </Link>
+        <Link
+          to={'/control'}
+          className={`header__nav-link ${pathname === '/control' ? 'active' : ''}`}
+        >
           Управление
-        </a>
+        </Link>
       </nav>
     </header>
   );

@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import Header from './components/Header';
-import Nav from './components/Nav';
-import Section from './components/Section';
+import Home from './pages/Home';
+import Control from './pages/Control';
 
 interface OwnProps {}
 
@@ -13,11 +13,15 @@ type Props = OwnProps;
 const App: FC<Props> = () => {
   return (
     <Provider store={store}>
-      <Header />
-      <div className='container'>
-        <Nav />
-        <Section />
-      </div>
+      <BrowserRouter basename='/'>
+        <Header />
+        <div className='container'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/control' element={<Control />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </Provider>
   );
 };
