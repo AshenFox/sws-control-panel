@@ -13,7 +13,7 @@ type Props = OwnProps;
 const App: FC<Props> = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter basename='/'>
+      <BrowserRouter basename='/sws-control-panel'>
         <Header />
         <div className='container'>
           <Routes>
