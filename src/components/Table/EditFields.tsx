@@ -1,4 +1,4 @@
-import { FC, ChangeEventHandler, KeyboardEventHandler, useEffect } from 'react';
+import { FC, ChangeEventHandler, KeyboardEventHandler, useEffect, useRef } from 'react';
 import { useActions } from '../../store/hooks';
 import {
   ChangableFieldsType,
@@ -12,13 +12,17 @@ interface OwnProps {
 type Props = OwnProps;
 
 const EditFields: FC<Props> = ({ data }) => {
-  const { rowName, salary, equipmentCosts, overheads, estimatedProfit, id } = data;
+  const { rowName, salary, equipmentCosts, overheads, estimatedProfit, id, isNew } = data;
 
-  const { set_row_field, save_new_row } = useActions();
+  const { set_row_field, update_row } = useActions();
+
+  const inputElRef = useRef<HTMLInputElement>(null);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const el = e.target;
     const { value } = el;
+    if (+value < 0) return console.error("Value can't be less than zero");
+
     const field = el.name as ChangableFieldsType;
 
     set_row_field(field, value, id);
@@ -26,10 +30,13 @@ const EditFields: FC<Props> = ({ data }) => {
 
   const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === 'Enter') {
-      console.log('Save!');
-      save_new_row(data);
+      update_row(data);
     }
   };
+
+  useEffect(() => {
+    inputElRef.current?.focus();
+  }, []);
 
   return (
     <>
@@ -38,11 +45,18 @@ const EditFields: FC<Props> = ({ data }) => {
           value={rowName}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          ref={inputElRef}
           name={'rowName'}
         />
       </div>
       <div className='table__item-salary'>
-        <input value={salary} onChange={onChange} onKeyDown={onKeyDown} name={'salary'} />
+        <input
+          value={salary}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          name={'salary'}
+          type={'number'}
+        />
       </div>
       <div className='table__item-equip'>
         <input
@@ -50,6 +64,7 @@ const EditFields: FC<Props> = ({ data }) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           name={'equipmentCosts'}
+          type={'number'}
         />
       </div>
       <div className='table__item-overheads'>
@@ -58,6 +73,7 @@ const EditFields: FC<Props> = ({ data }) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           name={'overheads'}
+          type={'number'}
         />
       </div>
       <div className='table__item-profit'>
@@ -66,6 +82,7 @@ const EditFields: FC<Props> = ({ data }) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           name={'estimatedProfit'}
+          type={'number'}
         />
       </div>
     </>

@@ -1,14 +1,17 @@
 import { ChangableFieldsType, RowInterface } from './../reducers/main/mainInitState';
 import { RowListType } from '../reducers/main/mainInitState';
+import { RowUpdateResponseInterface } from '../actions/types';
 
 // =======================
 export const GET_ROW_LIST = 'GET_ROW_LIST';
 export const CREATE_NEW_ROW = 'CREATE_NEW_ROW';
-export const SAVE_NEW_ROW = 'SAVE_NEW_ROW';
 export const DELETE_ROW = 'DELETE_ROW';
 export const UPDATE_ROW = 'UPDATE_ROW';
 export const SET_TABLE_WIDTH = 'SET_TABLE_WIDTH';
 export const SET_ROW_FIELD = 'SET_ROW_FIELD';
+export const SET_IS_BEING_EDITED = 'SET_IS_BEING_EDITED';
+export const SET_IS_LOADING = 'SET_IS_LOADING';
+export const SET_IS_MENU_OPEN = 'SET_IS_MENU_OPEN';
 
 export interface GetRowListAction {
   type: typeof GET_ROW_LIST;
@@ -25,24 +28,10 @@ export interface CreateNewRowAction {
   };
 }
 
-export interface SaveNewRowAction {
-  type: typeof SAVE_NEW_ROW;
-  payload: {
-    value: RowInterface;
-  };
-}
-
 export interface DeleteRowAction {
   type: typeof DELETE_ROW;
   payload: {
     value: number;
-  };
-}
-
-export interface UpdateRowAction {
-  type: typeof UPDATE_ROW;
-  payload: {
-    value: boolean;
   };
 }
 
@@ -62,73 +51,45 @@ export interface SetRowFieldAction {
   };
 }
 
-//
-
-/* 
-
-
-id: Math.random() * 10 ** 17,
-      rowName: '',
-      total: 0,
-      salary: 0,
-      mimExploitation: 0,
-      machineOperatorSalary: 0,
-      materials: 0,
-      mainCosts: 0,
-      supportCosts: 0,
-      equipmentCosts: 0,
-      overheads: 0,
-      estimatedProfit: 0,
-      child: [],
-      isBeingEdited: true,
-      isNew: true,
-      parentId: parent_id,
-
-*/
-
-export type MainActions =
-  | GetRowListAction
-  | CreateNewRowAction
-  | SaveNewRowAction
-  | DeleteRowAction
-  | UpdateRowAction
-  | SetTableWidthAction
-  | SetRowFieldAction;
-
-/* 
-export interface GetAddressList {
-  type: typeof GET_ADDRESS_LIST;
+export interface SetIsBeingEditedAction {
+  type: typeof SET_IS_BEING_EDITED;
   payload: {
-    value: AddressListType;
+    value: boolean;
+    row_id: number;
   };
 }
 
-export interface SetIsLoading {
+export interface UpdateRowsFromResponseAction {
+  type: typeof UPDATE_ROW;
+  payload: {
+    row_id: number | null;
+    value: RowUpdateResponseInterface;
+  };
+}
+
+export interface SetIsLoadingAction {
   type: typeof SET_IS_LOADING;
   payload: {
     value: boolean;
   };
 }
 
-export interface SetQuery {
-  type: typeof SET_QUERY;
-  payload: {
-    value: string;
-  };
-}
-
-export interface SetIsNothingFound {
-  type: typeof SET_IS_NOTHING_FOUND;
-  payload: {
-    value: string;
-  };
-}
-
-export interface SetIsTooShort {
-  type: typeof SET_IS_TOO_SHORT;
+export interface SetIsMenuOpen {
+  type: typeof SET_IS_MENU_OPEN;
   payload: {
     value: boolean;
   };
-} */
+}
+
+export type MainActions =
+  | GetRowListAction
+  | CreateNewRowAction
+  | DeleteRowAction
+  | SetTableWidthAction
+  | SetRowFieldAction
+  | SetIsBeingEditedAction
+  | UpdateRowsFromResponseAction
+  | SetIsMenuOpen
+  | SetIsLoadingAction;
 
 export type AppActions = MainActions;

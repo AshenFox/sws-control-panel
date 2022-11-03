@@ -1,5 +1,6 @@
 export interface MainState {
   is_menu_open: boolean;
+  is_loading: boolean;
   row_list: RowListType;
   table_width: number;
 }
@@ -36,6 +37,7 @@ export type RowListType = RowInterface[];
 
 const mainInitState: MainState = {
   is_menu_open: false,
+  is_loading: false,
   row_list: [],
   table_width: 0,
 };

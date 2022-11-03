@@ -7,14 +7,33 @@ import {
   AppActions,
   GET_ROW_LIST,
   CREATE_NEW_ROW,
-  SAVE_NEW_ROW,
   DELETE_ROW,
   UPDATE_ROW,
   SET_TABLE_WIDTH,
   SET_ROW_FIELD,
+  SET_IS_BEING_EDITED,
+  SET_IS_LOADING,
+  SET_IS_MENU_OPEN,
 } from '../types/types';
 import { ThunkActionApp } from '../store';
 import { api_url, token } from '../../helpers/values';
+import { RowUpdateResponseInterface } from './types';
+
+// SET_IS_MENU_OPEN
+export const set_is_menu_open = (value: boolean): AppActions => ({
+  type: SET_IS_MENU_OPEN,
+  payload: {
+    value,
+  },
+});
+
+// SET_IS_LOADING
+export const set_is_loading = (value: boolean): AppActions => ({
+  type: SET_IS_LOADING,
+  payload: {
+    value,
+  },
+});
 
 // SET_TABLE_WIDTH
 export const set_table_width = (value: number): AppActions => ({
@@ -30,6 +49,8 @@ export const get_row_list = () => <ThunkActionApp>(async (dispatch, getState) =>
       const options: RequestInit = {
         method: 'GET',
       };
+
+      dispatch(set_is_loading(true));
 
       const response = await fetch(api_url + token + '/row/list', options);
 
@@ -49,6 +70,8 @@ export const get_row_list = () => <ThunkActionApp>(async (dispatch, getState) =>
     } catch (err) {
       console.log(err);
     }
+
+    dispatch(set_is_loading(false));
   });
 
 // CREATE_NEW_ROW
@@ -77,8 +100,8 @@ export const create_new_row = (parent_id: number | null): AppActions => ({
   },
 });
 
-// SAVE_NEW_ROW
-export const save_new_row = (row: RowInterface) => <ThunkActionApp>(async (
+// UPDATE_ROW
+export const update_row = (row: RowInterface) => <ThunkActionApp>(async (
     dispatch,
     getState
   ) => {
@@ -91,52 +114,75 @@ export const save_new_row = (row: RowInterface) => <ThunkActionApp>(async (
         body: JSON.stringify(row),
       };
 
-      const response = await fetch(api_url + token + '/row/create', options);
+      const { id, isNew } = row;
+
+      const url = isNew
+        ? api_url + token + '/row/create'
+        : api_url + token + '/row/' + id + '/update';
+
+      const response = await fetch(url, options);
 
       if (!response.ok) {
         const err = await response.text();
         throw new Error(err);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as RowUpdateResponseInterface;
 
-      console.log(data);
-
-      /* dispatch({
-      type: GET_ROW_LIST,
-      payload: {
-        value: data,
-      },
-    }); */
+      dispatch({
+        type: UPDATE_ROW,
+        payload: {
+          row_id: id,
+          value: data,
+        },
+      });
     } catch (err) {
       console.log(err);
     }
   });
 
 // DELETE_ROW
-export const delete_row = (id: number) => <ThunkActionApp>(async (dispatch, getState) => {
+export const delete_row = (id: number, isNew?: boolean) => <ThunkActionApp>(async (
+    dispatch,
+    getState
+  ) => {
     try {
-      const options: RequestInit = {
-        method: 'DELETE',
-      };
+      if (!isNew) {
+        const options: RequestInit = {
+          method: 'DELETE',
+        };
 
-      const response = await fetch(api_url + token + '/row/' + id + '/delete', options);
+        const response = await fetch(api_url + token + '/row/' + id + '/delete', options);
 
-      if (!response.ok) {
-        const err = await response.text();
-        throw new Error(err);
+        if (!response.ok) {
+          const err = await response.text();
+          throw new Error(err);
+        }
+
+        const data = await response.json();
+
+        dispatch({
+          type: DELETE_ROW,
+          payload: {
+            value: id,
+          },
+        });
+
+        dispatch({
+          type: UPDATE_ROW,
+          payload: {
+            row_id: null,
+            value: data,
+          },
+        });
+      } else {
+        dispatch({
+          type: DELETE_ROW,
+          payload: {
+            value: id,
+          },
+        });
       }
-
-      const data = await response.json();
-
-      console.log(data);
-
-      /* dispatch({
-    type: GET_ROW_LIST,
-    payload: {
-      value: data,
-    },
-  }); */
     } catch (err) {
       console.log(err);
     }
@@ -153,6 +199,15 @@ export const set_row_field = (
     field,
     value,
     row_id,
+  },
+});
+
+// SET_IS_BEING_EDITED
+export const set_is_being_edited = (value: boolean, row_id: number): AppActions => ({
+  type: SET_IS_BEING_EDITED,
+  payload: {
+    row_id,
+    value,
   },
 });
 

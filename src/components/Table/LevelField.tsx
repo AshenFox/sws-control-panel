@@ -14,7 +14,7 @@ interface OwnProps {
 type Props = OwnProps;
 
 const LevelField: FC<Props> = ({ data, level }) => {
-  const { id, isBeingEdited } = data;
+  const { id, isBeingEdited, isNew } = data;
 
   const { create_new_row, delete_row } = useActions();
 
@@ -25,7 +25,7 @@ const LevelField: FC<Props> = ({ data, level }) => {
     };
 
   const deleteRow: MouseEventHandler<HTMLDivElement> = (e) => {
-    delete_row(id);
+    delete_row(id, isNew);
   };
 
   return (

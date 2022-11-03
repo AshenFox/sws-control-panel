@@ -9,15 +9,19 @@ interface OwnProps {}
 type Props = OwnProps;
 
 const Table: FC<Props> = () => {
-  const { row_list } = useAppSelector(({ main }) => main);
+  const { row_list, is_loading } = useAppSelector(({ main }) => main);
 
-  const { get_row_list, set_table_width } = useActions();
+  const { get_row_list, set_table_width, create_new_row } = useActions();
 
   const tableElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     get_row_list();
   }, []);
+
+  useEffect(() => {
+    if (!row_list.length && !is_loading) create_new_row(null);
+  }, [row_list, is_loading]);
 
   useEffect(() => {
     const el = tableElRef.current;
@@ -63,7 +67,7 @@ const Table: FC<Props> = () => {
     <div className='table__container'>
       <div className='table' ref={tableElRef}>
         <Header />
-        {mapRowList(row_list)}
+        {!is_loading && mapRowList(row_list)}
       </div>
     </div>
   );
