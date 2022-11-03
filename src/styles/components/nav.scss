@@ -91,7 +91,7 @@
     @media (max-width: $tablet) {
       position: fixed;
       top: calc(8.8rem);
-      right: 0;
+      right: -100%;
 
       // max-height: 0;
       // opacity: 0;
@@ -105,7 +105,7 @@
       &.active {
         // max-height: 2000px;
 
-        right: -100%;
+        right: 0;
       }
     }
   }
