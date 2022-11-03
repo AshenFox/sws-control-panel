@@ -22,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node server/index.js",
+    "start": "react-scripts start",
     "dev": "react-scripts start",
     "devs": "set HTTPS=true&&set SSL_CRT_FILE=./.cert/cert.pem&&set SSL_KEY_FILE=./.cert/key.pem&npm run dev",
     "build": "react-scripts build",
